@@ -1,2 +1,2 @@
 # cloudrun-demo
-Cloud Run（Docker） から GCS や Firestore に接続するサンプル。
+Cloud Run（Docker） から GCS や Firestore に接続するサンプル。(作成中)
