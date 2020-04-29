@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  api:
+    build: .
+
+    #buildが指定されている場合は作成イメージの名前になる
+    #build指定なし：このイメージを元に作成される(ex.mysqlとか)
+    image: crdemo:v0.0
+
+    # ポートフォワーディング（ホスト側：docker側）
+    # ホスト側のブラウザで実行するときは http://localhost:1000 で見れるようになる
+    ports:
+      - "8888:8080"
+
+    # (ホスト側：docker側)dockerの「/app」フォルダとホストのカレントを繋げるよ。
+    # ホストの変更が反映されるようになる
+    volumes:
+      - ./app:/app
+
+    # environment:
+    #   - GOOGLE_APPLICATION_CREDENTIALS
+    # デフォルトのコマンドをこれに変える。ホットリロードを有効にする？
+    # command: >
+    #   bash -c "go get github.com/oxequa/realize &&
+    #   realize start --run --no-config"
+
+    tty: true
