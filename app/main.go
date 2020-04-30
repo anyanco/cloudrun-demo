@@ -15,6 +15,8 @@ package main
             getStorageText(w, r)
           case "/firestore" :
             GetFirestoreData(w, r)
+          case "/login" :
+            Login(w, r)
           case "/" :
             fmt.Fprintf(w, "Hello Docker World")
           default:

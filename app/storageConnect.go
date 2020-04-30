@@ -6,6 +6,7 @@ package main
         "net/http"
         "os"
         "io/ioutil"
+        "context"
         "cloud.google.com/go/storage"
     )
 
@@ -40,4 +41,36 @@ package main
         defer reader.Close()
 
         fmt.Fprintf(w, msg)
+    }
+
+    func GetHtmlText(ctx context.Context, targetHtml string) (html string){
+
+      client, err := storage.NewClient(ctx)
+      if err != nil {
+         log.Fatal(err)
+         return
+      }
+
+      // connect to GCS
+      bucketName := os.Getenv("BUCKET_NAME")
+      fmt.Printf("bucketname : %s\n", bucketName)
+      obj := client.Bucket(bucketName).Object(targetHtml)
+      reader, err := obj.NewReader(ctx)
+      defer reader.Close()
+
+      if err != nil {
+         log.Fatal(err)
+         return
+      }
+
+      // read File
+      htmlBite, err := ioutil.ReadAll(reader)
+      if err != nil {
+        log.Fatal(err)
+        return
+      } else {
+        html = string(htmlBite)
+      }
+
+      return
     }
