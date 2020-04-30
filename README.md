@@ -22,7 +22,7 @@ Cloud Run 使用時に以下の環境変数の設定が必要。
 - PROJECT_ID : プロジェクト名
 
 ## Template
-`app/template` 以下の htmlファイルは GCS に配置する。
+`template` 以下の htmlファイルは GCS に配置する。
 
 # Build
 ```
