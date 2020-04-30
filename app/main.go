@@ -23,7 +23,6 @@ package main
 
     func main() {
         http.HandleFunc("/", handler)
-        // SetOsENV()
         port := os.Getenv("PORT")
         if port == "" {
                 port = "8080"
@@ -31,9 +30,3 @@ package main
 
         log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
     }
-
-    // func SetOsENV(){
-    //   os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "/tmp/keys/demo-key.json")
-    //   os.Setenv("BUCKET_NAME", "demo-sandbox-akiando")
-    //   os.Setenv("PROJECT_ID", "sandbox-akiando")
-    // }
