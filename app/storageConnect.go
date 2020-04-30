@@ -20,7 +20,8 @@ package main
         }
 
         // connect to GCS
-        bucketName := os.Getenv("BUCKETNAME")
+        bucketName := os.Getenv("BUCKET_NAME")
+        fmt.Printf("bucketname : %s\n", bucketName)
         objectPath := "demo-test.txt"
         obj := client.Bucket(bucketName).Object(objectPath)
         reader, err := obj.NewReader(ctx)
