@@ -5,7 +5,6 @@
 
     # Create and change to the app directory.
     WORKDIR /app
-
     # Retrieve application dependencies.
     # This allows the container build to reuse cached dependencies.
     COPY go.* ./
@@ -28,4 +27,3 @@
 
     # Run the web service on container startup.
     CMD ["/server"]
-    
