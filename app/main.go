@@ -1,34 +1,37 @@
 package main
 
-    import (
-        "fmt"
-        "log"
-        "net/http"
-        "os"
-    )
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"os"
 
-    // routing
-    func handler(w http.ResponseWriter, r *http.Request) {
-        path := r.URL.Path
-        switch path {
-          case "/storage" :
-            getStorageText(w, r)
-          case "/firestore" :
-            GetFirestoreData(w, r)
-          case "/login" :
-            Login(w, r)
-          case "/" :
-            fmt.Fprintf(w, "Hello Docker World")
-          default:
-        }
-    }
+	"github.com/aki36-an/cloudrun-demo/connection"
+	"github.com/aki36-an/cloudrun-demo/login"
+)
 
-    func main() {
-        http.HandleFunc("/", handler)
-        port := os.Getenv("PORT")
-        if port == "" {
-                port = "8080"
-        }
+// routing
+func handler(w http.ResponseWriter, r *http.Request) {
+	path := r.URL.Path
+	switch path {
+	case "/storage":
+		connection.getStorageText(w, r)
+	case "/firestore":
+		connection.GetFirestoreData(w, r)
+	case "/login":
+		login.Login(w, r)
+	case "/":
+		fmt.Fprintf(w, "Hello Docker World")
+	default:
+	}
+}
 
-        log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
-    }
+func main() {
+	http.HandleFunc("/", handler)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
+}
