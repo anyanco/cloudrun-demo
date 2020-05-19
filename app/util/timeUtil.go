@@ -6,6 +6,10 @@ var CurrentTime = func() time.Time {
 	return time.Now()
 }
 
+var InitTime = func() time.Time {
+	return time.Time{}
+}
+
 func TimeToSring(baseTime time.Time) (timeString string) {
 	const dateFormat = "2006/01/02 15:04:05" // 24h表現、0埋めあり
 	jst := time.FixedZone("Asia/Tokyo", 9*60*60)

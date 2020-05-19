@@ -5,6 +5,9 @@ import (
 	"log"
 	"time"
 
+	"github.com/aki36-an/cloudrun-demo/app/common"
+	"github.com/aki36-an/cloudrun-demo/app/entity"
+	"github.com/aki36-an/cloudrun-demo/app/util"
 	"google.golang.org/api/iterator"
 )
 
@@ -12,11 +15,11 @@ import (
 GetLastAccess
   最終ログイン時刻を取得する
 */
-func GetLastAccess(ctx context.Context, info LastAccessInfo) (lastAccess time.Time, leadErr error) {
+func GetLastAccess(ctx context.Context, info entity.LastAccessInfo) (lastAccess time.Time, leadErr error) {
 
-	collection := getCollection(ctx, COLLECTION_NAME)
+	collection := getCollection(ctx, common.COLLECTION_NAME)
 
-	query := collection.Where(USER_NAME, "==", info.UserName)
+	query := collection.Where(common.USER_NAME, "==", info.UserName)
 	log.Printf("Query : %v", query)
 
 	iter := query.Documents(ctx)
@@ -30,10 +33,10 @@ func GetLastAccess(ctx context.Context, info LastAccessInfo) (lastAccess time.Ti
 	}
 
 	// 読み込み（LastAccessInfoに設定）
-	var accessData LastAccessInfo
+	var accessData entity.LastAccessInfo
 	if leadErr := doc.DataTo(&accessData); leadErr != nil {
-		// log.Fatal(leadErr)
-		return nil, leadErr
+		initTime := util.InitTime()
+		return initTime, leadErr
 	}
 	lastAccess = accessData.LastAccess
 	return
@@ -45,9 +48,9 @@ func GetLastAccess(ctx context.Context, info LastAccessInfo) (lastAccess time.Ti
   ※ただし、不要なデータが存在する場合、全て消去してしまうため、
     状況に応じてMargeAllの設定が必要。
 */
-func SetLastAccess(ctx context.Context, info LastAccessInfo) (err error) {
+func SetLastAccess(ctx context.Context, info entity.LastAccessInfo) (err error) {
 
-	_, err = getCollection(ctx, COLLECTION_NAME).Doc(info.UserName).Set(ctx, info)
+	_, err = getCollection(ctx, common.COLLECTION_NAME).Doc(info.UserName).Set(ctx, info)
 	if err != nil {
 		// log.Fatal(err)
 		return err

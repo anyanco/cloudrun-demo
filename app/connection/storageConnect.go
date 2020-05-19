@@ -1,4 +1,4 @@
-package main
+package connection
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 )
 
 // get Text from GCS
-func getStorageText(w http.ResponseWriter, r *http.Request) {
+func GetStorageText(w http.ResponseWriter, r *http.Request) {
 
 	log.Print("getStorageText received a request.")
 	ctx := r.Context()

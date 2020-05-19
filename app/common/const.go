@@ -1,4 +1,4 @@
-package main
+package common
 
 const USER_PARAM_KEY string = "u"
 

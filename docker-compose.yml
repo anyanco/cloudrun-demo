@@ -6,7 +6,7 @@ services:
 
     #buildが指定されている場合は作成イメージの名前になる
     #build指定なし：このイメージを元に作成される(ex.mysqlとか)
-    image: crdemo:v0.0
+    image: crdemo:v1.5
 
     # ポートフォワーディング（ホスト側：docker側）
     # ホスト側のブラウザで実行するときは http://localhost:1000 で見れるようになる
@@ -15,8 +15,8 @@ services:
 
     # (ホスト側：docker側)dockerの「/app」フォルダとホストのカレントを繋げるよ。
     # ホストの変更が反映されるようになる
-    volumes:
-      - ./app:/app
+    # volumes:
+    #   - ./app:/app
 
     # environment:
     #   - GOOGLE_APPLICATION_CREDENTIALS
