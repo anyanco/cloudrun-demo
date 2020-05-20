@@ -39,6 +39,7 @@ func GetLastAccess(ctx context.Context, info entity.LastAccessInfo) (lastAccess 
 		return initTime, leadErr
 	}
 	lastAccess = accessData.LastAccess
+	log.Printf("lastAccess >> %s", lastAccess)
 	return
 }
 

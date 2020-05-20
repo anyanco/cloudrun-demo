@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"cloud.google.com/go/firestore"
@@ -34,7 +33,7 @@ func GetFirestoreData(w http.ResponseWriter, r *http.Request) {
 
 func getCollection(ctx context.Context, collectionName string) (collection *firestore.CollectionRef) {
 	fmt.Printf("getCollection/collectionName : %s\n", collectionName)
-	client, err := firestore.NewClient(ctx, os.Getenv("PROJECT_ID"))
+	client, err := firestore.NewClient(ctx, common.ProjectId())
 	if err != nil {
 		log.Fatal(err, common.ERROR_NO_FS_CLIENT)
 		return

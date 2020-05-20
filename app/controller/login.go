@@ -43,7 +43,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// テンプレート取得
-	html := connection.GetHtmlText(ctx, "index.html")
+	html := connection.GetHtmlText(ctx)
+	if util.IsEmpty(html) {
+		fmt.Fprint(w, common.ERROR_NO_TEMPLATE)
+		return
+	}
 
 	//埋め込み変数
 	params := map[string]string{
