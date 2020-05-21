@@ -31,6 +31,7 @@ Cloud Run 使用時に以下の環境変数の設定が必要。
 
 - `BUCKETNAME` : GCSのバケット名
 - `PROJECT_ID` : プロジェクト名
+- `APP_TEMPLATE_FILE` : テンプレートファイルパス
 
 ## Template
 `template` 以下の htmlファイルは GCS に配置する。
@@ -40,9 +41,22 @@ Cloud Run 使用時に以下の環境変数の設定が必要。
 gcloud builds submit --tag asia.gcr.io/[PROJECT_ID]/[SERVICE_NAME]:[VERSION]
 ```
 
-
 ## Deploy
 ```
 gcloud run deploy --image asia.gcr.io/[PROJECT_ID]/[SERVICE_NAME]:[VERSION] \
   --platform managed
+```
+
+## Localでの開発に関して
+Localでの開発時には `docker-compose` コマンドを使用する。<br>
+`docker-compose.yml` があるディレクトリにて、以下のコマンドを実行するだけでOK。 <br>
+※なお、キャッシュが効いており、変更が反映されない場合は<br>
+ `docker-compose.yml` 内の `image` のバージョンNoを変更すると解決する。
+
+```
+# build
+$ docker-compose build
+
+#run
+$ docker-compose up
 ```
