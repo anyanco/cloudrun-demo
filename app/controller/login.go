@@ -30,7 +30,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// 最終アクセス日時取得
 	lastAccess, err := connection.GetLastAccess(ctx, accessInfo)
-	if lastAccess.IsZero() || err != nil {
+	if err != nil || lastAccess.IsZero() {
 		// データが存在しない場合は今回のアクセス日時を最新とする
 		lastAccess = nowDate
 	}

@@ -15,7 +15,7 @@ import (
 GetLastAccess
   最終ログイン時刻を取得する
 */
-func GetLastAccess(ctx context.Context, info entity.LastAccessInfo) (lastAccess time.Time, leadErr error) {
+func GetLastAccess(ctx context.Context, info entity.LastAccessInfo) (time.Time, error) {
 
 	collection := getCollection(ctx, common.COLLECTION_NAME)
 
@@ -29,18 +29,22 @@ func GetLastAccess(ctx context.Context, info entity.LastAccessInfo) (lastAccess 
 	// var Done = errors.New("no more items in iterator")
 	if err == iterator.Done {
 		log.Print("新規作成 -----")
-		return
+		return util.InitTime(), err
 	}
 
+	log.Printf("doc : %v", doc)
+
+	if doc == nil {
+		return util.InitTime(), err
+	}
 	// 読み込み（LastAccessInfoに設定）
 	var accessData entity.LastAccessInfo
 	if leadErr := doc.DataTo(&accessData); leadErr != nil {
-		initTime := util.InitTime()
-		return initTime, leadErr
+		return util.InitTime(), leadErr
 	}
-	lastAccess = accessData.LastAccess
+	lastAccess := accessData.LastAccess
 	log.Printf("lastAccess >> %s", lastAccess)
-	return
+	return lastAccess, nil
 }
 
 /*
@@ -51,6 +55,7 @@ func GetLastAccess(ctx context.Context, info entity.LastAccessInfo) (lastAccess 
 */
 func SetLastAccess(ctx context.Context, info entity.LastAccessInfo) (err error) {
 
+	log.Printf("set into collection: %v, username: %v", common.COLLECTION_NAME, info.UserName)
 	_, err = getCollection(ctx, common.COLLECTION_NAME).Doc(info.UserName).Set(ctx, info)
 	if err != nil {
 		// log.Fatal(err)

@@ -1,28 +1,28 @@
-version: '3'
+version: '3.3'
 
 services:
   api:
     build: .
 
-    #buildが指定されている場合は作成イメージの名前になる
-    #build指定なし：このイメージを元に作成される(ex.mysqlとか)
-    image: crdemo:v1.6
+    image: crdemo:v1.6.8
 
     # ポートフォワーディング（ホスト側：docker側）
-    # ホスト側のブラウザで実行するときは http://localhost:1000 で見れるようになる
+    # ホスト側のブラウザで実行するときは http://localhost:8888 で見れるようになる
     ports:
       - "8888:8080"
 
-    # (ホスト側：docker側)dockerの「/app」フォルダとホストのカレントを繋げるよ。
-    # ホストの変更が反映されるようになる
-    # volumes:
-    #   - ./app:/app
+    # cledentialファイルもコピー
+    # docker-compose はローカルに限る。
+    # docker-compose up した場合は、cledentialファイルも含めてイメージが作成されるので、
+    # 公共の環境では使っちゃだめ。
+    volumes:
+      - /tmp/keys/:/tmp/keys
 
+    # ここに設定した環境変数はローカルからコピーされる
     environment:
       - GOOGLE_APPLICATION_CREDENTIALS
-    # デフォルトのコマンドをこれに変える。ホットリロードを有効にする？
-    # command: >
-    #   bash -c "go get github.com/oxequa/realize &&
-    #   realize start --run --no-config"
+      - APP_TEMPLATE_FILE
+      - BUCKET_NAME
+      - PROJECT_ID
 
     tty: true
