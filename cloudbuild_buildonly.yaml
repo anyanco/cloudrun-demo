@@ -1,0 +1,9 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build',
+         '--build-arg',
+         'node_version=$SHORT_SHA',
+         '-t',
+         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:$SHORT_SHA',
+         '.']
