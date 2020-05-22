@@ -5,13 +5,13 @@ steps:
          '--build-arg',
          'node_version=${_VERSION}',
          '-t',
-         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:${_VERSION}',
+         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:$SHORT_SHA',
          '.']
 
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push',
-         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:${_VERSION}']
+         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:$SHORT_SHA']
 
 # Deploy container image to Cloud Run
 - name: 'gcr.io/cloud-builders/gcloud'
@@ -19,7 +19,7 @@ steps:
          'deploy',
          'cloudrun-demo',
          '--image',
-         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:${_VERSION}',
+         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:$SHORT_SHA',
          '--region',
          'asia-northeast1',
          '--platform',
@@ -28,4 +28,4 @@ steps:
 substitutions:
     _VERSION: v3.3 # default value
 images:
-- asia.gcr.io/$PROJECT_ID/cloudrun-demo:${_VERSION}
+- asia.gcr.io/$PROJECT_ID/cloudrun-demo:$SHORT_SHA

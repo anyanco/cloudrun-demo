@@ -36,6 +36,7 @@ Cloud Run 使用時に以下の環境変数の設定が必要。
 ## Template
 `template` 以下の htmlファイルは GCS に配置する。
 
+
 ## Build
 ```
 gcloud builds submit --tag asia.gcr.io/[PROJECT_ID]/[SERVICE_NAME]:[VERSION]
