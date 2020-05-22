@@ -25,5 +25,7 @@ steps:
          '--platform',
          'managed',
          '--allow-unauthenticated']
+substitutions:
+    _VERSION: v3.3 # default value
 images:
 - asia.gcr.io/$PROJECT_ID/cloudrun-demo:${_VERSION}
