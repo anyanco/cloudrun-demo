@@ -1,0 +1,29 @@
+steps:
+# Build the container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build',
+         '--build-arg',
+         'node_version=${_VERSION}',
+         '-t',
+         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:${_VERSION}',
+         '.']
+
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push',
+         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:${_VERSION}']
+
+# Deploy container image to Cloud Run
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['run',
+         'deploy',
+         'cloudrun-demo',
+         '--image',
+         'asia.gcr.io/$PROJECT_ID/cloudrun-demo:${_VERSION}',
+         '--region',
+         'asia-northeast1',
+         '--platform',
+         'managed',
+         '--allow-unauthenticated']
+images:
+- asia.gcr.io/$PROJECT_ID/cloudrun-demo:${_VERSION}
