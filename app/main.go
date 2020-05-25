@@ -21,7 +21,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	case "/login":
 		controller.Login(w, r)
 	case "/":
-		fmt.Fprintf(w, "Hello Docker World")
+		fmt.Fprintf(w, "Hello Docker World v3")
 	default:
 	}
 }
