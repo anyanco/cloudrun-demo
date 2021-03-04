@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"cloud.google.com/go/storage"
 	"github.com/aki36-an/cloudrun-demo/app/common"
@@ -111,20 +112,24 @@ func GetFixWords(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("bucketname : %s\n", bucketName)
 	objectPath := "demo-test.txt"
 	obj := client.Bucket(bucketName).Object(objectPath)
+
 	reader, err := obj.NewReader(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	msg := "Error"
+	// msg := "Error"
 	// read File
 	txt, err := ioutil.ReadAll(reader)
+	words_list := []string{}
 	if err != nil {
 		log.Fatal(err)
 	} else {
-		msg = string(txt)
+		words := string(txt)
+		words_list = strings.Split(words, "\n")
+
 	}
 	defer reader.Close()
 
-	fmt.Fprintf(w, msg)
+	fmt.Fprintf(w, "%s", words_list)
 }
